@@ -108,7 +108,7 @@ p {
 h1 {
   max-width: 880px;
   margin: 0 auto;
-  font-size: clamp(42px, 6vw, 72px);
+  font-size: clamp(38px, 5.2vw, 62px);
   line-height: 0.98;
   font-weight: 880;
 }
@@ -117,7 +117,7 @@ h1 {
   max-width: 1120px;
   margin: 12px auto 0;
   color: var(--ink);
-  font-size: clamp(21px, 2.4vw, 30px);
+  font-size: clamp(18px, 2vw, 25px);
   line-height: 1.12;
   font-weight: 740;
   white-space: nowrap;
@@ -127,7 +127,7 @@ h1 {
   max-width: 760px;
   margin: 22px auto 0;
   color: var(--muted);
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .author-block {
@@ -258,7 +258,7 @@ h1 {
 .section-heading h2,
 .narrow h2 {
   margin: 0;
-  font-size: clamp(24px, 3vw, 36px);
+  font-size: clamp(22px, 2.5vw, 30px);
   line-height: 1.08;
 }
 
