@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Efficient-WAM</title>
+    <meta
+      name="description"
+      content="Efficient-WAM: A 1B-Parameter World-Action Model with Low-Cost Future Imagination"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="static/css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <h1><span>Efficient-WAM</span></h1>
+          <p class="title-detail">A 1B-Parameter World-Action Model with Low-Cost Future Imagination</p>
+
+          <div class="author-block" aria-label="Authors and affiliations">
+            <div class="authors">
+              <div>
+                <span>Jiajun Li<sup>1,*</sup></span>,
+                <span>Tiecheng Guo<sup>2,*</sup></span>,
+                <span>Yifan Ye<sup>3,*</sup></span>,
+                <span>Rongyu Zhang<sup>4</sup></span>,
+                <span>Xiaowei Chi<sup>5</sup></span>,
+                <span>Qianpu Sun<sup>6</sup></span>,
+                <span>Ying Li<sup>2</sup></span>,
+                <span>Yunfan Lou<sup>7</sup></span>,
+                <span>Yan Huang<sup>8</sup></span>
+              </div>
+              <div class="corresponding-authors">
+                <span>Zhihe Lu<sup>3,†</sup></span>,
+                <span>Meng Guo<sup>2,†</sup></span>,
+                <span>Shanghang Zhang<sup>2,†</sup></span>
+              </div>
+            </div>
+            <p class="affiliations">
+              <sup>1</sup>The University of Hong Kong &nbsp;&nbsp;
+              <sup>2</sup>Peking University &nbsp;&nbsp;
+              <sup>3</sup>Hamad Bin Khalifa University &nbsp;&nbsp;
+              <sup>4</sup>Nanjing University<br />
+              <sup>5</sup>Muka Robotics &nbsp;&nbsp;
+              <sup>6</sup>Tsinghua University &nbsp;&nbsp;
+              <sup>7</sup>National University of Singapore &nbsp;&nbsp;
+              <sup>8</sup>Institute of Automation, Chinese Academy of Sciences
+            </p>
+            <p class="notes">* Equal contribution. † Corresponding authors.</p>
+          </div>
+
+          <div class="actions">
+            <a class="button" href="static/paper.pdf">
+              <i class="ai ai-arxiv icon" aria-hidden="true"></i>
+              <span>arXiv</span>
+            </a>
+            <span class="button disabled" aria-disabled="true">
+              <i class="fa-brands fa-github icon" aria-hidden="true"></i>
+              <span>Code (coming soon)</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="figure-band" aria-label="Teaser figure">
+        <div class="container teaser-container">
+          <img class="paper-figure teaser-figure" src="static/images/teaser.png" alt="Overview of Efficient-WAM" />
+          <p class="caption teaser-caption">
+            Efficient-WAM uses low-cost future imagination to capture task-relevant
+            object and robot dynamics without photorealistic video generation.
+          </p>
+        </div>
+      </section>
+
+      <section id="abstract" class="section abstract-section">
+        <div class="container narrow">
+          <h2>Abstract</h2>
+          <p>
+            World-Action Models (WAMs) have emerged as a promising paradigm for embodied control by coupling future visual prediction with action generation. However, most existing WAMs rely on photorealistic future prediction, which incurs high inference latency and makes real-time robot deployment difficult. This motivates a more efficient WAM design that preserves the control benefits of future visual prediction while reducing its inference cost.
+          </p>
+          <p>
+            We introduce Efficient-WAM, a World-Action Model that reduces the cost of future imagination while preserving its control benefit. Efficient-WAM improves inference efficiency via a compact video expert transferred from WAN-2.2-5B, token-sparse video latents, and asymmetric video-action denoising that allocates fewer sampling steps to video than to actions. Instead of optimizing the future branch for visual fidelity, Efficient-WAM treats future video prediction as a compact guidance signal for action generation. Comprehensive experiments on RoboTwin 2.0 and real-world manipulation tasks show that Efficient-WAM maintains strong action performance despite visibly coarse future predictions. While maintaining competitive control capabilities, our 1B-parameter model can reduce per-chunk latency to around 100 ms during physical deployment, achieving a 30x speedup over existing WAMs.
+          </p>
+        </div>
+      </section>
+
+      <section id="method" class="section alt">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Action-centric future imagination</h2>
+            <p>
+              Efficient-WAM compresses the video branch along three axes:
+              model size, future-token density, and denoising budget.
+            </p>
+          </div>
+          <img class="paper-figure method-figure" src="static/images/architecture.png" alt="Efficient-WAM architecture" />
+          <div class="feature-grid">
+            <article>
+              <h3>Compact video expert</h3>
+              <p>
+                A lightweight video expert is initialized from WAN-2.2-5B through
+                structured layer slicing and teacher-guided distillation.
+              </p>
+            </article>
+            <article>
+              <h3>Token-sparse futures</h3>
+              <p>
+                Future frames are predicted as low-resolution latents while current
+                observations remain high-resolution for action conditioning.
+              </p>
+            </article>
+            <article>
+              <h3>Asymmetric denoising</h3>
+              <p>
+                The video branch receives fewer denoising updates than the action
+                branch, reducing latency while preserving action-centric structure.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="section">
+        <div class="container">
+          <div class="section-heading compact-heading">
+            <h2>Efficient control in simulation and the real world</h2>
+            <p>
+              Efficient-WAM matches heavyweight baselines on RoboTwin 2.0, while Efficient-WAM-RT provides a practical accuracy-latency trade-off and achieves the best average success with the fastest execution on real-world Astribot S1 tasks.
+            </p>
+          </div>
+          <div class="results-grid">
+            <article class="result-card large-table-card">
+              <h3>RoboTwin 2.0 Simulation</h3>
+              <p>Average success rates over 50 tasks under clean and randomized settings.</p>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>Clean (%)</th>
+                      <th>Random (%)</th>
+                      <th>Params</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="group-row"><td colspan="4">VLA-based methods</td></tr>
+                    <tr><td>&pi;<sub>0</sub></td><td>65.9</td><td>58.4</td><td>3.3B</td></tr>
+                    <tr><td>StarVLA-&alpha;</td><td>76.8</td><td>79.1</td><td>2B</td></tr>
+                    <tr><td>&pi;<sub>0.5</sub></td><td>82.7</td><td>76.8</td><td>3.3B</td></tr>
+                    <tr><td>ABot-M0</td><td>86.1</td><td>85.1</td><td>4.2B</td></tr>
+                    <tr><td>LingBot-VLA</td><td>86.5</td><td>85.3</td><td>4B</td></tr>
+                    <tr class="group-row"><td colspan="4">WAM-based methods</td></tr>
+                    <tr><td>UWM</td><td>81.7</td><td>78.6</td><td>5B</td></tr>
+                    <tr><td>GigaWorld-Policy</td><td>86.4</td><td>85.0</td><td>5B</td></tr>
+                    <tr><td>Motus</td><td><strong>88.7</strong></td><td><strong>87.0</strong></td><td>8B</td></tr>
+                    <tr class="ours-row"><td>Efficient-WAM</td><td><u>86.7</u></td><td><u>85.7</u></td><td rowspan="2">1B</td></tr>
+                    <tr class="ours-row"><td>Efficient-WAM-RT</td><td>83.1</td><td>82.0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="result-card">
+              <h3>Real-World Astribot S1</h3>
+              <p>Success rates over four physical manipulation tasks.</p>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Task</th>
+                      <th>&pi;<sub>0.5</sub></th>
+                      <th>Motus</th>
+                      <th class="ours-col">Efficient-WAM-RT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Pipette-tray grasping</td><td><strong>100</strong></td><td>85</td><td class="ours-col">95</td></tr>
+                    <tr><td>Reagent-bottle transfer</td><td>75</td><td><strong>80</strong></td><td class="ours-col">75</td></tr>
+                    <tr><td>LEGO color sorting</td><td>30</td><td><strong>65</strong></td><td class="ours-col"><strong>65</strong></td></tr>
+                    <tr><td>Pen uncapping</td><td>10</td><td>25</td><td class="ours-col"><strong>30</strong></td></tr>
+                    <tr class="summary-row first-summary"><td>Avg. Success (%)</td><td>53.75</td><td>63.75</td><td class="ours-col"><strong>66.25</strong></td></tr>
+                    <tr class="summary-row"><td>Avg. Chunk Lat. (ms)</td><td>113</td><td>3215</td><td class="ours-col"><strong>98</strong></td></tr>
+                    <tr class="summary-row"><td>Avg. Step Lat. (ms)</td><td>7.1</td><td>200.9</td><td class="ours-col"><strong>6.1</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="future" class="section alt">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Coarse futures remain useful for control</h2>
+            <p>
+              Efficient-WAM-RT produces blurrier and lower-fidelity futures than
+              the uncompressed video expert, yet preserves action-centric geometry,
+              motion direction, and contact layout.
+            </p>
+          </div>
+          <div class="comparison">
+            <figure>
+              <img src="static/images/fidelity_big.png" alt="Full WAN future prediction example" />
+              <figcaption>Full WAN configuration</figcaption>
+            </figure>
+            <figure>
+              <img src="static/images/fidelity_small.png" alt="Efficient-WAM-RT future prediction example" />
+              <figcaption>Efficient-WAM-RT</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="demos" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Real-world demos</h2>
+            <p>
+              We deploy Efficient-WAM-RT on the Astribot S1 across four physical manipulation tasks, covering precise tray grasping, gentle reagent-bottle transfer, long-horizon color sorting, and fine-grained bimanual pen uncapping.
+            </p>
+          </div>
+          <div class="demo-grid">
+            <figure class="demo-card">
+              <video controls muted playsinline preload="metadata" src="static/videos/tray.mp4"></video>
+              <figcaption>Pipette-tray grasping</figcaption>
+            </figure>
+            <figure class="demo-card">
+              <video controls muted playsinline preload="metadata" src="static/videos/bottle-transfer.mp4"></video>
+              <figcaption>Reagent-bottle transfer</figcaption>
+            </figure>
+            <figure class="demo-card">
+              <video controls muted playsinline preload="metadata" src="static/videos/lego-sorting.mp4"></video>
+              <figcaption>LEGO color sorting</figcaption>
+            </figure>
+            <figure class="demo-card">
+              <video controls muted playsinline preload="metadata" src="static/videos/pen-uncapping.mp4"></video>
+              <figcaption>Pen uncapping</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="bibtex" class="section alt compact-section">
+        <div class="container narrow">
+          <h2>BibTeX</h2>
+          <pre><code>@article{li2026efficientwam,
+  title   = {Efficient-WAM: A 1B-Parameter World-Action Model with Low-Cost Future Imagination},
+  author  = {Li, Jiajun and Guo, Tiecheng and Ye, Yifan and Zhang, Rongyu and Chi, Xiaowei and Sun, Qianpu and Li, Ying and Lou, Yunfan and Huang, Yan and Lu, Zhihe and Guo, Meng and Zhang, Shanghang},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+        </div>
+      </section>
+
+    </main>
+
+  </body>
+</html>
