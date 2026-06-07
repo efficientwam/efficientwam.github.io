@@ -163,6 +163,18 @@ h1 {
   font-size: 13px;
 }
 
+.notes sup {
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.mail-mark,
+.mail-note {
+  position: relative;
+  top: -0.04em;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
