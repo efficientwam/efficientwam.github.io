@@ -43,7 +43,7 @@ a {
 }
 
 .nav {
-  width: min(1180px, calc(100% - 36px));
+  width: min(1080px, calc(100% - 72px));
   min-height: 64px;
   margin: 0 auto;
   display: flex;
@@ -106,7 +106,7 @@ p {
 }
 
 h1 {
-  max-width: 920px;
+  max-width: 880px;
   margin: 0 auto;
   font-size: clamp(42px, 6vw, 72px);
   line-height: 0.98;
@@ -214,12 +214,12 @@ h1 {
 }
 
 .container {
-  width: min(1180px, calc(100% - 36px));
+  width: min(1080px, calc(100% - 72px));
   margin: 0 auto;
 }
 
 .container.narrow {
-  width: min(860px, calc(100% - 36px));
+  width: min(860px, calc(100% - 72px));
 }
 
 .section,
@@ -232,7 +232,7 @@ h1 {
 }
 
 .teaser-container {
-  width: min(980px, calc(100% - 36px));
+  width: min(920px, calc(100% - 72px));
 }
 
 .teaser-figure {
@@ -241,7 +241,7 @@ h1 {
 }
 
 .method-figure {
-  max-width: 980px;
+  max-width: 900px;
   margin: 0 auto 24px;
 }
 
