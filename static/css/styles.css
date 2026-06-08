@@ -161,6 +161,10 @@ h1 {
   margin: 7px 0 0;
   color: var(--muted);
   font-size: 13px;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
 }
 
 .notes sup {
