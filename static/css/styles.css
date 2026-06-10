@@ -229,9 +229,9 @@ h1 {
   line-height: 1;
 }
 
-.button img.icon {
-  display: block;
-  object-fit: contain;
+.hf-icon {
+  font-size: 17px;
+  line-height: 1;
 }
 
 .container {
