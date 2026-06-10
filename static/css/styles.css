@@ -229,6 +229,16 @@ h1 {
   line-height: 1;
 }
 
+.button img.icon {
+  display: block;
+  object-fit: contain;
+}
+
+.arxiv-icon {
+  width: 22px;
+  height: 18px;
+}
+
 .hf-icon {
   font-size: 17px;
   line-height: 1;
