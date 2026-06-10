@@ -229,6 +229,11 @@ h1 {
   line-height: 1;
 }
 
+.button img.icon {
+  display: block;
+  object-fit: contain;
+}
+
 .container {
   width: min(980px, calc(100% - 112px));
   margin: 0 auto;
